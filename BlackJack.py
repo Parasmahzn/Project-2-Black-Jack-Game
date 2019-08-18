@@ -10,7 +10,7 @@ Creating A simple black jack game using OOP in Python
 from MainPackage import Classes
 
 playing=True
-
+replay=False
 def take_bet(chips):
     while True:
         try:
@@ -20,7 +20,7 @@ def take_bet(chips):
             continue
         else:
             if(chips.bet>chips.total):
-                print(f'Sorry!! You only have {chips.total} Chips.\nPlease Reenter different bet amount')
+                print(f'Sorry you do not have sufficient chips. You have: {chips.total} Chips.')
                 continue
             else:
                 break
@@ -33,7 +33,7 @@ def hit(deck,hand):
 def hit_or_stand(deck,hand):
     global playing
     while True:
-         x=input('Hit or Hand? Enter h or s  ')
+         x=input('Hit or Stand? Enter h or s  ')
          
          if x[0].lower()=='h':
              hit(deck,hand)
@@ -46,7 +46,7 @@ def hit_or_stand(deck,hand):
          break
 
 def show_some(player,dealer):
-    print('DEALERS HAND:')
+    print('\nDEALERS HAND:')
     print('one card hidden!')
     print(dealer.cards[1])
     print('\n')
@@ -65,23 +65,23 @@ def show_all(player,dealer):
 
 
 def player_busts(player,dealer,chips):
-    print('PLAYER BUST!!!')
+    print('\nPLAYER BUST!!!')
     chips.lose_bet()
 
 def player_wins(player,dealer,chips):
-    print('PLAYER WINS!!!')
+    print('\nPLAYER WINS!!!')
     chips.win_bet()
 
 def dealer_busts(player,dealer,chips):
-    print('PLAYER WINS!!! DEALER BUSTED!')
+    print('\nPLAYER WINS!!! DEALER BUSTED!')
     chips.win_bet()
     
 def dealer_wins(player,dealer,chips):
-    print('DEALER WINS!!!')
+    print('\nDEALER WINS!!!')
     chips.lose_bet()
     
 def push(player,dealer):
-    print('Dealer and Player Tie! PUSH')
+    print('\nDealer and Player Tie! PUSH')
     
              
 '''
@@ -107,8 +107,8 @@ while True:
     
         
     # Set up the Player's chips
-    
-    player_chips=Classes.Chips()
+    if not replay:
+        player_chips=Classes.Chips()
     
     # Prompt the Player for their bet
     
@@ -132,9 +132,9 @@ while True:
             break
 
     # If Player hasn't busted, play Dealer's hand until Dealer reaches 17
-        if player_hand.value<=21:
-            while dealer_hand.value<player_hand.value:
-                hit(deck,dealer_hand)
+    if player_hand.value<=21:
+        while dealer_hand.value<player_hand.value:
+            hit(deck,dealer_hand)
     
         # Show all cards
         show_all(player_hand,dealer_hand)
@@ -151,18 +151,18 @@ while True:
         
     
     # Inform Player of their chips total 
-    print(f'\n Player Total Chips are at : { player_chips.total }')
+    print(f'\nPlayer Total Chips are at : { player_chips.total }')
     # Ask to play again
     new_game =input('Would you like to play another hand? y/n ')
     
     if new_game[0].lower()=='y':
       playing=True
+      replay=True
+      player_chips=Classes.Chips(player_chips.total)
       continue
     else:
        print('\nThank you for playing!!!')
-       break
-       
+       break    
     
     
-
 

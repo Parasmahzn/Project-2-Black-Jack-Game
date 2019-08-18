@@ -79,8 +79,8 @@ class Hand:
         
 class Chips:
     
-    def __init__(self):
-        self.total=100
+    def __init__(self,chips=100):
+        self.total=chips
         self.bet=0
         
     def win_bet(self):
